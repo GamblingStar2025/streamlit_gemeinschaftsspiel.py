@@ -1,6 +1,7 @@
-import numpy as np
+
 import streamlit as st
 import pandas as pd
+import numpy as np
 import random
 import os
 from collections import Counter
@@ -23,7 +24,7 @@ df = df.sort_values(by='Ziehungsdatum', ascending=True)
 main_numbers = df.iloc[:, 1:6].values.tolist()
 star_numbers = df.iloc[:, 6:8].values.tolist()
 
-# === Statistik + LSTM-Vorbereitung ===
+# === Statistik + LSTM ===
 all_numbers_flat = [num for draw in main_numbers for num in draw]
 number_counts = Counter(all_numbers_flat)
 hot_numbers = [num for num, count in number_counts.most_common(20)]
@@ -57,7 +58,7 @@ def train_lstm_model(X, y):
         Dense(5)
     ])
     model.compile(optimizer='adam', loss='mse')
-    model.fit(X, y, epochs=20, verbose=0)
+    model.fit(X, y, epochs=10, verbose=0)
     return model
 
 def echte_vorhersagen(anzahl):
@@ -74,7 +75,7 @@ def echte_vorhersagen(anzahl):
         tipps.append((haupt, sterne))
     return tipps
 
-# === Gemeinschaftsspiel-Strategie ===
+# === Strategien ===
 def strategie_einzelspieler(einsatz):
     if einsatz < 1 or einsatz > 50:
         raise ValueError("Einzelspieler-Einsatz muss zwischen 1 und 50€ liegen.")
@@ -98,15 +99,6 @@ def strategie_gemeinschaft(einsatz):
         "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
         "stufe": f"Level {(einsatz - 50) // 50 + 1}/10"
     }
-    base_tips = 14
-    multiplier = 8
-    stufen = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
-
-    if einsatz not in stufen:
-        raise ValueError("Einsatz muss 50, 100, 150, 200 oder 250 sein.")
-
-    tipps = base_tips + ((einsatz - 50) // 50) * multiplier
-    return tipps
 
 # === Streamlit UI ===
 st.set_page_config(page_title="EuroMillions Analyse-App", layout="centered")
@@ -117,21 +109,15 @@ modus = st.radio("Modus wählen:", ["🎮 Einzelspieler", "👥 Gemeinschaftsspi
 if modus == "🎮 Einzelspieler":
     einsatz = st.slider("💰 Einsatzbetrag wählen (Einzelspiel):", 1, 50, 10, step=1)
     strategie = strategie_einzelspieler(einsatz)
-        "einsatz": einsatz,
-        strategie = strategie_einzelspieler(einsatz)
     anzahl = strategie["tipps"]
-        "ki_gewichtung": 50 + ((einsatz - 50) // 50) * 10,
-        "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
-        "stufe": f"Level {(einsatz - 50) // 50 + 1}/5"
-    }
+
     st.subheader(f"🧮 Strategie für {strategie['einsatz']}€ Beitrag (Einzelspieler)")
     st.metric("🎟️ Tipps insgesamt", f"{strategie['tipps']}")
     st.metric("🧠 KI-Gewichtung", f"{strategie['ki_gewichtung']}%")
     st.metric("🎲 Simulationen", f"{strategie['simulationen']:,}")
     st.metric("🔢 Stufe", strategie['stufe'])
-    st.header("🔹 Einzelspiel-Vorhersage")
-    anzahl = strategie["tipps"]
-    if st.button("Tipps generieren"):
+
+    if st.button("🎯 Tipps generieren"):
         tipps = echte_vorhersagen(anzahl)
         df_out = pd.DataFrame([{
             "Tipp": i+1,
@@ -143,23 +129,17 @@ if modus == "🎮 Einzelspieler":
         st.download_button("📥 CSV herunterladen", data=csv, file_name="Einzelspiel_Tipps.csv")
 
 if modus == "👥 Gemeinschaftsspiel":
-    st.header("🔹 Gemeinschaftsspiel-Strategie")
-    einsatz = st.selectbox("💰 Einsatzbetrag wählen:", [50, 100, 150, 200, 250, 300, 350, 400, 450, 500])
-    if st.button("Tipps generieren"):
-        strategie = strategie_gemeinschaft(einsatz)
-        anzahl = strategie["tipps"]
-        strategie = strategie_einzelspieler(einsatz)
-            "einsatz": einsatz,
-            "tipps": anzahl,
-            "ki_gewichtung": 50 + ((einsatz - 50) // 50) * 10,
-            "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
-            "stufe": f"Level {(einsatz - 50) // 50 + 1}/5"
-        }
-        st.subheader(f"🧮 Strategie für {strategie['einsatz']}€ Beitrag")
-        st.metric("🎟️ Tipps insgesamt", f"{strategie['tipps']}")
-        st.metric("🧠 KI-Gewichtung", f"{strategie['ki_gewichtung']}%")
-        st.metric("🎲 Simulationen", f"{strategie['simulationen']:,}")
-        st.metric("🔢 Stufe", strategie['stufe'])
+    einsatz = st.selectbox("💰 Einsatzbetrag wählen (Gemeinschaft):", [50, 100, 150, 200, 250, 300, 350, 400, 450, 500])
+    strategie = strategie_gemeinschaft(einsatz)
+    anzahl = strategie["tipps"]
+
+    st.subheader(f"🧮 Strategie für {strategie['einsatz']}€ Beitrag (Gemeinschaftsspiel)")
+    st.metric("🎟️ Tipps insgesamt", f"{strategie['tipps']}")
+    st.metric("🧠 KI-Gewichtung", f"{strategie['ki_gewichtung']}%")
+    st.metric("🎲 Simulationen", f"{strategie['simulationen']:,}")
+    st.metric("🔢 Stufe", strategie['stufe'])
+
+    if st.button("🤝 Gemeinschafts-Tipps generieren"):
         tipps = echte_vorhersagen(anzahl)
         df_out = pd.DataFrame([{
             "Tipp": i+1,
@@ -168,4 +148,4 @@ if modus == "👥 Gemeinschaftsspiel":
         } for i, t in enumerate(tipps)])
         st.dataframe(df_out)
         csv = df_out.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 CSV herunterladen", data=csv, file_name="Gemeinschaftstipps.csv")
+        st.download_button("📥 CSV herunterladen", data=csv, file_name="Gemeinschaft_Tipps.csv")
