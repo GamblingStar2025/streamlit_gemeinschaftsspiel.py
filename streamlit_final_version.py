@@ -118,7 +118,8 @@ if modus == "🎮 Einzelspieler":
     einsatz = st.slider("💰 Einsatzbetrag wählen (Einzelspiel):", 1, 50, 10, step=1)
     strategie = strategie_einzelspieler(einsatz)
         "einsatz": einsatz,
-        "tipps": strategie_einzelspieler(einsatz)["tipps"],
+        strategie = strategie_einzelspieler(einsatz)
+    anzahl = strategie["tipps"]
         "ki_gewichtung": 50 + ((einsatz - 50) // 50) * 10,
         "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
         "stufe": f"Level {(einsatz - 50) // 50 + 1}/5"
