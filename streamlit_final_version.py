@@ -1,6 +1,44 @@
 
 import streamlit as st
-st.set_page_config(page_title="EuroMillions Analyse-App", layout="centered")
+import pandas as pd
+import numpy as np
+import random
+import os
+from collections import Counter
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, LSTM, Dense
+
+
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        font-size: 18px;
+        padding: 0.75em 1.5em;
+        border-radius: 10px;
+    }
+    .stDownloadButton>button {
+        font-size: 16px;
+        padding: 0.6em 1.2em;
+        border-radius: 8px;
+    }
+    .stSelectbox, .stSlider, .stRadio {
+        font-size: 17px !important;
+    }
+    .block-container {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .stMetric {
+        font-size: 18px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 import pandas as pd
 import numpy as np
 import random
