@@ -101,6 +101,35 @@ def strategie_gemeinschaft(einsatz):
     }
 
 # === Streamlit UI ===
+
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        font-size: 18px;
+        padding: 0.75em 1.5em;
+        border-radius: 10px;
+    }
+    .stDownloadButton>button {
+        font-size: 16px;
+        padding: 0.6em 1.2em;
+        border-radius: 8px;
+    }
+    .stSelectbox, .stSlider, .stRadio {
+        font-size: 17px !important;
+    }
+    .block-container {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .stMetric {
+        font-size: 18px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.set_page_config(page_title="EuroMillions Analyse-App", layout="centered")
 st.title("🔮 EuroMillions: Einzelspiel & Gemeinschaftsspiel mit CSV-Analyse")
 
