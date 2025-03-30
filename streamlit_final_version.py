@@ -78,7 +78,7 @@ def echte_vorhersagen(anzahl):
 def gemeinschaftsspiel_strategie(einsatz):
     base_tips = 14
     multiplier = 8
-    stufen = [50, 100, 150, 200, 250]
+    stufen = [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
 
     if einsatz not in stufen:
         raise ValueError("Einsatz muss 50, 100, 150, 200 oder 250 sein.")
@@ -93,8 +93,21 @@ st.title("🔮 EuroMillions: Einzelspiel & Gemeinschaftsspiel mit CSV-Analyse")
 modus = st.radio("Modus wählen:", ["🎮 Einzelspieler", "👥 Gemeinschaftsspiel"])
 
 if modus == "🎮 Einzelspieler":
+    einsatz = st.slider("💰 Einsatzbetrag wählen (Einzelspiel):", 1, 50, 10, step=1)
+    strategie = {
+        "einsatz": einsatz,
+        "tipps": gemeinschaftsspiel_strategie(einsatz),
+        "ki_gewichtung": 50 + ((einsatz - 50) // 50) * 10,
+        "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
+        "stufe": f"Level {(einsatz - 50) // 50 + 1}/5"
+    }
+    st.subheader(f"🧮 Strategie für {strategie['einsatz']}€ Beitrag (Einzelspieler)")
+    st.metric("🎟️ Tipps insgesamt", f"{strategie['tipps']}")
+    st.metric("🧠 KI-Gewichtung", f"{strategie['ki_gewichtung']}%")
+    st.metric("🎲 Simulationen", f"{strategie['simulationen']:,}")
+    st.metric("🔢 Stufe", strategie['stufe'])
     st.header("🔹 Einzelspiel-Vorhersage")
-    anzahl = st.slider("Wie viele Tipps möchtest du generieren?", 1, 20, 5)
+    anzahl = strategie["tipps"]
     if st.button("Tipps generieren"):
         tipps = echte_vorhersagen(anzahl)
         df_out = pd.DataFrame([{
@@ -108,9 +121,21 @@ if modus == "🎮 Einzelspieler":
 
 if modus == "👥 Gemeinschaftsspiel":
     st.header("🔹 Gemeinschaftsspiel-Strategie")
-    einsatz = st.selectbox("💰 Einsatzbetrag wählen:", [50, 100, 150, 200, 250])
+    einsatz = st.selectbox("💰 Einsatzbetrag wählen:", [50, 100, 150, 200, 250, 300, 350, 400, 450, 500])
     if st.button("Tipps generieren"):
         anzahl = gemeinschaftsspiel_strategie(einsatz)
+        strategie = {
+            "einsatz": einsatz,
+            "tipps": anzahl,
+            "ki_gewichtung": 50 + ((einsatz - 50) // 50) * 10,
+            "simulationen": 100000 + ((einsatz - 50) // 50) * 50000,
+            "stufe": f"Level {(einsatz - 50) // 50 + 1}/5"
+        }
+        st.subheader(f"🧮 Strategie für {strategie['einsatz']}€ Beitrag")
+        st.metric("🎟️ Tipps insgesamt", f"{strategie['tipps']}")
+        st.metric("🧠 KI-Gewichtung", f"{strategie['ki_gewichtung']}%")
+        st.metric("🎲 Simulationen", f"{strategie['simulationen']:,}")
+        st.metric("🔢 Stufe", strategie['stufe'])
         tipps = echte_vorhersagen(anzahl)
         df_out = pd.DataFrame([{
             "Tipp": i+1,
