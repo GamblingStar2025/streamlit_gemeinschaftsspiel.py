@@ -1,3 +1,4 @@
+import numpy as np
 import streamlit as st
 import pandas as pd
 import random
@@ -46,7 +47,7 @@ def prepare_lstm_data(main_numbers):
         target = sequences[i + 1]
         X.append(seq)
         y.append(target)
-    return pd.np.array(X).reshape((-1, 5, 1)), pd.np.array(y)
+    return np.array(X).reshape((-1, 5, 1)), np.array(y)
 
 def train_lstm_model(X, y):
     model = Sequential([
