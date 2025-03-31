@@ -1,0 +1,1 @@
+# Alle Analyse-Methoden integriert
