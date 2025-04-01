@@ -1,1 +1,1 @@
-# Compares Tipps with Ziehung, Gewinnklasse, Summe
+# Auswertung Modul
