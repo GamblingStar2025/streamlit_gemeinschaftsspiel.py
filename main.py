@@ -39,4 +39,4 @@ with st.spinner("App wird geladen..."):
 
 st.markdown("**⬇️ Weiter zur App:**")
 if st.button("➡️ Jetzt starten"):
-    st.switch_page("pages/main_app")
+    st.switch_page("main_app")
