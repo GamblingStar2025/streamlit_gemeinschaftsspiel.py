@@ -1,3 +1,3 @@
 # EuroMillions App
 
-Dies ist die finale stabile Version der App für mobile Nutzung.
+Dies ist die stabile Arbeitsversion der App.
