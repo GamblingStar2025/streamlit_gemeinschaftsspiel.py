@@ -1,0 +1,1 @@
+# Main app entry point with updated sliders and Auswertung integration
