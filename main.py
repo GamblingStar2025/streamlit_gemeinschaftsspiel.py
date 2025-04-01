@@ -25,10 +25,10 @@ h1 {
 '''
 st.markdown(page_style, unsafe_allow_html=True)
 
-# Logo laden über PIL
+# Logo laden mit aktuellem Parameter
 try:
     logo = Image.open("logo_gold.png")
-    st.image(logo, use_column_width=False)
+    st.image(logo, use_container_width=False)
 except:
     st.warning("Logo konnte nicht geladen werden.")
 
@@ -37,6 +37,6 @@ st.markdown("## EuroGenius – KI trifft auf Glück ✨")
 with st.spinner("App wird geladen..."):
     time.sleep(3)
 
-st.markdown("**⬇️ Bitte klicke auf 'Weiter' um zur App zu gelangen:**")
-if st.button("➡️ Weiter zur App"):
-    st.switch_page("main_app.py")
+st.markdown("**⬇️ Weiter zur App:**")
+if st.button("➡️ Jetzt starten"):
+    st.switch_page("pages/main_app")
