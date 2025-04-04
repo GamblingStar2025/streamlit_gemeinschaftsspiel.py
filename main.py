@@ -1,20 +1,42 @@
 
 import streamlit as st
+import time
+from PIL import Image
 
-# 🔢 Globale KI-Gewichtung (z.B. 135 % aus Slider)
-ki_gewichtung_global = st.slider("🔮 KI-Gewichtung Gesamt (%)", 0, 200, 100)
+st.set_page_config(page_title="EuroGenius Start", layout="centered", initial_sidebar_state="collapsed")
 
-# 📊 Basisgewichtung je Methode in Prozent (Verhältnis muss 100 ergeben)
-basis_gewichte = {
-    "Hot-Zahlen": 25,
-    "Cold-Zahlen": 15,
-    "Cluster": 20,
-    "Monte Carlo": 25,
-    "Zahlenrad (Rad)": 15
+page_style = '''
+<style>
+body {
+    background-color: #0c0c0c;
+    color: #f1f1f1;
+    text-align: center;
 }
+img {
+    max-width: 250px;
+    margin-top: 50px;
+}
+h1 {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+    color: gold;
+}
+</style>
+'''
+st.markdown(page_style, unsafe_allow_html=True)
 
-# 🔄 Berechnung der verstärkten Gewichtung
-st.markdown("### 📈 Angewandte Gewichtungen der Analyse-Methoden")
-for methode, basis in basis_gewichte.items():
-    verstärkt = round(basis * (ki_gewichtung_global / 100), 2)
-    st.progress(min(int(verstärkt), 100), text=f"{methode}: {verstärkt}%")
+# Logo laden mit aktuellem Parameter
+try:
+    logo = Image.open("logo_gold.png")
+    st.image(logo, use_container_width=False)
+except:
+    st.warning("Logo konnte nicht geladen werden.")
+
+st.markdown("## EuroGenius – KI trifft auf Glück ✨")
+
+with st.spinner("App wird geladen..."):
+    time.sleep(3)
+
+st.markdown("**⬇️ Weiter zur App:**")
+if st.button("➡️ Jetzt starten"):
+    st.switch_page("main_app")
