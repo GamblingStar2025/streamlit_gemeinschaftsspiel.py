@@ -17,6 +17,22 @@ anzahl_tipps = st.sidebar.slider("Wie viele Tipps möchtest du generieren?", 1, 
 ki_gewichtung = st.sidebar.slider("🔬 KI-Gewichtung (%)", 0, 200, 100)
 sim_stufen = st.sidebar.slider("🎲 Simulationen (Monte Carlo)", 100, 1000000, 10000, step=100)
 
+# 💡 Erweiterte Anzeige: Methoden-Gewichtung basierend auf globaler KI-Wert
+st.markdown("### 📈 Angewandte Gewichtungen der Analyse-Methoden")
+
+basis_gewichte = {
+    "Hot-Zahlen": 25,
+    "Cold-Zahlen": 15,
+    "Cluster": 20,
+    "Monte Carlo": 25,
+    "Zahlenrad (Rad)": 15
+}
+
+for methode, basis in basis_gewichte.items():
+    verstärkt = round(basis * (ki_gewichtung / 100), 2)
+    st.progress(min(int(verstärkt), 100), text=f"{methode}: {verstärkt}%")
+
+
 st.markdown("## 📥 CSV-Daten hochladen")
 csv_file = st.file_uploader("Lade die Datei 'EuroMillion_Ziehungen.csv' hoch", type=["csv"])
 
