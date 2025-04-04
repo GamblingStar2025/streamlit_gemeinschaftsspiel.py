@@ -5,7 +5,13 @@ from datetime import date
 
 st.set_page_config(page_title="EuroGenius Tipps", layout="centered")
 
-st.title("🎯 EuroGenius – Dein KI-Tippassistent")
+
+st.markdown(
+    "<h1 style='text-align: center; color: gold;'>🎯 EuroGenius – Dein KI-Tippassistent</h1>",
+    unsafe_allow_html=True
+)
+st.markdown("<style>body { background-color: #0b0e11; color: white; }</style>", unsafe_allow_html=True)
+
 
 # Spielmodus und Land
 modus = st.radio("Modus", ["👤 Einzelspieler", "👥 Gemeinschaft"])
@@ -29,8 +35,15 @@ kosten = anzahl * preis
 st.markdown(f"💰 **Gesamtkosten:** `{kosten:.2f} {waehrung}`")
 
 # Tipps generieren
+
 if st.button("🚀 Tipps generieren"):
-    st.subheader("🎟 Deine Tipps")
+    with st.spinner("🔄 KI analysiert Wahrscheinlichkeiten..."):
+        time.sleep(1)
+
+    
+st.success("🎉 Deine Tipps sind bereit – viel Glück!")
+st.subheader("🎟 Deine Tipps")
+
     methoden = []
     if use_hot: methoden.append("Hot/Cold")
     if use_cluster: methoden.append("Cluster")
