@@ -1,42 +1,26 @@
 
 import streamlit as st
-import time
-from PIL import Image
 
-st.set_page_config(page_title="EuroGenius Start", layout="centered", initial_sidebar_state="collapsed")
+st.title("🎯 KI-Gewichtung pro Methode")
 
-page_style = '''
-<style>
-body {
-    background-color: #0c0c0c;
-    color: #f1f1f1;
-    text-align: center;
-}
-img {
-    max-width: 250px;
-    margin-top: 50px;
-}
-h1 {
-    font-size: 2.5rem;
-    margin-top: 1rem;
-    color: gold;
-}
-</style>
-'''
-st.markdown(page_style, unsafe_allow_html=True)
+# 🔮 Globaler KI-Gewichtungsfaktor
+ki_global = st.slider("🌐 Gesamt-KI-Gewichtung (%)", 0, 200, 100)
 
-# Logo laden mit aktuellem Parameter
-try:
-    logo = Image.open("logo_gold.png")
-    st.image(logo, use_container_width=False)
-except:
-    st.warning("Logo konnte nicht geladen werden.")
+# Einzel-Slider pro Methode
+hot = st.slider("🔥 Hot-Zahlen (%)", 0, 200, 100)
+cold = st.slider("❄️ Cold-Zahlen (%)", 0, 200, 100)
+cluster = st.slider("📊 Cluster (%)", 0, 200, 100)
+rad = st.slider("♻️ Rad-Prinzip (%)", 0, 200, 100)
+monte = st.slider("🎲 Monte Carlo (%)", 0, 200, 100)
 
-st.markdown("## EuroGenius – KI trifft auf Glück ✨")
-
-with st.spinner("App wird geladen..."):
-    time.sleep(3)
-
-st.markdown("**⬇️ Weiter zur App:**")
-if st.button("➡️ Jetzt starten"):
-    st.switch_page("main_app")
+# Effektive Gewichtung pro Methode
+st.subheader("📈 Effektive Gewichtungen (mit globalem Faktor multipliziert):")
+for name, value in {
+    "Hot-Zahlen": hot,
+    "Cold-Zahlen": cold,
+    "Cluster": cluster,
+    "Rad-Prinzip": rad,
+    "Monte Carlo": monte
+}.items():
+    effektiv = round(value * ki_global / 100, 2)
+    st.progress(min(int(effektiv), 100), text=f"{name}: {effektiv}%")
