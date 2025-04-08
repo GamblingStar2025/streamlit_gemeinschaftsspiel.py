@@ -1,3 +1,1 @@
-import streamlit as st
-
-st.title('2 Strategie')
+# pages/strategie.py – Platzhalter für Streamlit-Komponente

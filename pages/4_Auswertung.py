@@ -1,3 +1,1 @@
-import streamlit as st
-
-st.title('4 Auswertung')
+# pages/auswertung.py – Platzhalter für Streamlit-Komponente
