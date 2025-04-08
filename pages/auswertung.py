@@ -1,25 +1,17 @@
 
 import streamlit as st
-import pandas as pd
 
-st.title("🏆 Auswertung & Gewinn-Ermittlung")
-st.write("Vergleich der Tipps mit gezogenen Zahlen und Anzeige der Gewinnklasse und Beträge.")
+st.title("📊 Auswertung deiner Tipps")
 
-# 1. Ziehung laden
-ziehung_file = st.file_uploader("📁 Letzte Ziehung hochladen (CSV)", type="csv")
-ziehung_data = None
-if ziehung_file:
-    ziehung_data = pd.read_csv(ziehung_file)
-    st.success("Ziehung erfolgreich geladen.")
-    st.write(ziehung_data)
+gezogene_zahlen = st.multiselect("Gezogene Hauptzahlen (5)", list(range(1, 51)), max_selections=5)
+gezogene_sterne = st.multiselect("Gezogene Sternzahlen (2)", list(range(1, 13)), max_selections=2)
+tipps = st.session_state.get("generierte_tipps", [])
 
-# 2. Tipps laden
-tipps_data = st.session_state.get("generierte_tipps", [])
-if not tipps_data:
-    st.warning("⚠️ Keine Tipps gefunden. Bitte zuerst Tipps generieren.")
+if gezogene_zahlen and gezogene_sterne and len(gezogene_zahlen) == 5 and len(gezogene_sterne) == 2:
+    st.subheader("🏁 Trefferanalyse:")
+    for i, (zahlen, sterne) in enumerate(tipps, 1):
+        htreffer = set(zahlen).intersection(gezogene_zahlen)
+        streffer = set(sterne).intersection(gezogene_sterne)
+        st.markdown(f"**Tipp {i}:** {zahlen} ⭐ {sterne} — 🎯 {len(htreffer)} + {len(streffer)}")
 else:
-    st.subheader("🎯 Vergleich mit generierten Tipps")
-    for i, tipp in enumerate(tipps_data, 1):
-        st.write(f"Tipp {i}: {tipp}")
-
-# Weitere Funktionen folgen...
+    st.info("Bitte die vollständige Ziehung eingeben.")

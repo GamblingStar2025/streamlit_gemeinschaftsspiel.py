@@ -23,7 +23,6 @@ if not st.session_state.automatisch:
         }
         st.success("Strategie gespeichert!")
 
-# Live-Vorschau anzeigen
 strategie = st.session_state.get("strategie", None)
 if strategie:
     st.markdown("✅ **Aktive Strategie-Einstellungen:**")
