@@ -18,13 +18,6 @@ if uploaded_file:
     ziehungen_df = pd.read_csv(uploaded_file)
     st.success("Datei erfolgreich geladen!")
     st.dataframe(ziehungen_df.head())
-    if len(ziehungen_df) >= 2000:
-        letzte_2000 = ziehungen_df.tail(2000)
-        st.markdown("### 🔢 Letzte 2000 Ziehungen")
-        st.dataframe(letzte_2000)
-    else:
-        st.warning("Die Datei enthält weniger als 2000 Ziehungen. Bitte vollständige CSV verwenden.")
-
 
 # === Tipp-Generierung ===
 st.markdown("## 🔁 Tipps generieren")
@@ -39,3 +32,22 @@ if st.button("🎯 Generiere Tipps"):
         })
     df_tipps = pd.DataFrame(tipps)
     st.dataframe(df_tipps)
+
+
+
+import pandas as pd
+
+st.markdown("## 📂 CSV-Datei hochladen")
+uploaded_file = st.file_uploader("Lade deine EuroMillion-Ziehungsdatei hoch (CSV)", type="csv")
+
+if uploaded_file is not None:
+    try:
+        ziehungen_df = pd.read_csv(uploaded_file)
+        ziehungen_df.dropna(inplace=True)
+        if len(ziehungen_df) >= 2000:
+            st.success("✅ Datei erfolgreich geladen. Die letzten 2000 Ziehungen werden angezeigt.")
+            st.dataframe(ziehungen_df.tail(2000))
+        else:
+            st.warning("⚠️ Die Datei enthält weniger als 2000 Ziehungen.")
+    except Exception as e:
+        st.error(f"Fehler beim Einlesen der Datei: {e}")
