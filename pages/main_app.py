@@ -4,9 +4,10 @@ import random
 
 st.title("🎰 Tipp-Generator")
 
-anzahl = st.number_input("Wieviele Tipps generieren?", min_value=1, max_value=50, value=5)
-strategie = st.session_state.get("strategie", {})
+modus = st.radio("Wähle Spielmodus", ["Einzelspieler", "Gemeinschaftsspiel"])
+anzahl = st.slider("Anzahl Tipps", 1, 50 if modus == "Einzelspieler" else 500, 5)
 
+strategie = st.session_state.get("strategie", {})
 tipps = []
 for _ in range(anzahl):
     gewichtung = sum(strategie.values()) if strategie else 100
@@ -21,3 +22,11 @@ for i, (zahlen, sterne) in enumerate(tipps, 1):
     st.markdown(f"**Tipp {i}:** {zahlen} ⭐ {sterne}")
 
 st.session_state["generierte_tipps"] = tipps
+
+col1, col2 = st.columns(2)
+with col1:
+    if st.button("🔙 Zurück zur Strategie"):
+        st.switch_page("pages/strategie.py")
+with col2:
+    if st.button("➡️ Weiter zur Auswertung"):
+        st.switch_page("pages/auswertung.py")
