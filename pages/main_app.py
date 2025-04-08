@@ -11,14 +11,6 @@ max_tipps = 50 if modus == "Einzelspieler" else 500
 anzahl_tipps = st.slider("🎟️ Anzahl Tipps", 1, max_tipps, 5)
 
 # === CSV Upload ===
-st.markdown("## 📁 Ziehungsdaten hochladen")
-uploaded_file = st.file_uploader("Lade eine CSV-Datei mit Ziehungsdaten hoch", type=["csv"])
-ziehungen_df = None
-if uploaded_file:
-    ziehungen_df = pd.read_csv(uploaded_file)
-    st.success("Datei erfolgreich geladen!")
-    st.dataframe(ziehungen_df.head())
-
 # === Tipp-Generierung ===
 st.markdown("## 🔁 Tipps generieren")
 if st.button("🎯 Generiere Tipps"):
