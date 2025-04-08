@@ -43,3 +43,11 @@ if st.button("🔁 Tipps generieren"):
     } for i, t in enumerate(tipps)])
 
     st.dataframe(df_tipps)
+
+# === CSV Upload ===
+st.markdown("## 📁 Ziehungsdaten hochladen")
+uploaded_file = st.file_uploader("Lade eine CSV-Datei mit Ziehungsdaten hoch", type=["csv"])
+if uploaded_file:
+    ziehungen_df = pd.read_csv(uploaded_file)
+    st.success("Datei erfolgreich geladen!")
+    st.dataframe(ziehungen_df.head())
