@@ -23,3 +23,23 @@ for name, val in {
 }.items():
     effektiv = round(val * ki_global / 100, 2)
     st.progress(min(int(effektiv), 100), text=f"{name}: {effektiv}%")
+
+import random
+import pandas as pd
+
+# === Tipp-Generierung ===
+st.markdown("## 🎯 Tipp-Generator")
+if st.button("🔁 Tipps generieren"):
+    tipps = []
+    for _ in range(anzahl_tipps):
+        hauptzahlen = sorted(random.sample(range(1, 51), 5))
+        sterne = sorted(random.sample(range(1, 13), 2))
+        tipps.append({"Hauptzahlen": hauptzahlen, "Sterne": sterne})
+
+    df_tipps = pd.DataFrame([{
+        "Tipp": i+1,
+        "Hauptzahlen": " - ".join(map(str, t["Hauptzahlen"])),
+        "Sternzahlen": " - ".join(map(str, t["Sterne"]))
+    } for i, t in enumerate(tipps)])
+
+    st.dataframe(df_tipps)
