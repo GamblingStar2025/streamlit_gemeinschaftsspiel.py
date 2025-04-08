@@ -1,4 +1,10 @@
 
+# === Spielmodus und Tippanzahl-Definition sicherstellen ===
+modus = st.radio("🧑‍🤝‍🧑 Spielmodus", ["Einzelspieler", "Gemeinschaftsspiel"])
+max_tipps = 50 if modus == "Einzelspieler" else 500
+anzahl_tipps = st.slider("🎟️ Anzahl Tipps", 1, max_tipps, 5)
+
+
 import streamlit as st
 
 st.title("🎯 EuroGenius – Methodeinstellungen")
