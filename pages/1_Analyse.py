@@ -1,3 +1,4 @@
 import streamlit as st
 
-st.title('📊 Analyse der Ziehungen')
+st.title('📊 Analyse')
+st.info('Hier werden die letzten 2000 Ziehungen ausgewertet.')
