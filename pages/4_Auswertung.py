@@ -1,4 +1,4 @@
 import streamlit as st
 
 st.title('🏆 Auswertung')
-st.error('Ergebnisse deiner Tipps im Vergleich zur Ziehung.')
+st.error('Hier siehst du deine Treffer & Gewinne.')
