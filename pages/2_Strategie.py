@@ -1,1 +1,3 @@
-# pages/strategie.py – Platzhalter für Streamlit-Komponente
+import streamlit as st
+
+st.title('🧠 Strategie festlegen')

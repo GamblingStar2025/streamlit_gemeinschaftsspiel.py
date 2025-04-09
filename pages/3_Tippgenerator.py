@@ -1,1 +1,3 @@
-# pages/main_app.py – Platzhalter für Streamlit-Komponente
+import streamlit as st
+
+st.title('🎯 Tippgenerator')

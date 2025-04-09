@@ -1,1 +1,3 @@
-# pages/auswertung.py – Platzhalter für Streamlit-Komponente
+import streamlit as st
+
+st.title('🏆 Auswertung deiner Tipps')

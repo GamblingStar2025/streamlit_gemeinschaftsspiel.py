@@ -1,1 +1,3 @@
-# pages/analyse.py – Platzhalter für Streamlit-Komponente
+import streamlit as st
+
+st.title('📊 Analyse der Ziehungen')
