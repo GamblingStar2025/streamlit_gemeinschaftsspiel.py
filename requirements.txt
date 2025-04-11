@@ -1,8 +1,3 @@
+
 streamlit
-pandas
-numpy
-scikit-learn
-matplotlib
-fpdf
-qrcode
-supabase
+supabase-py

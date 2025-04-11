@@ -1,3 +1,4 @@
+
 def eurogenius_css():
     return """
     <style>
@@ -30,5 +31,3 @@ def eurogenius_css():
     }
     </style>
     """
-
-
