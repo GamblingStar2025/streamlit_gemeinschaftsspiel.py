@@ -1,3 +1,5 @@
-
+panda
 streamlit
 supabase-py
+qrcode
+matplotlib
