@@ -1,26 +1,27 @@
 
 import streamlit as st
 
-st.title("💎 Upgrade auf Premium")
+st.set_page_config(page_title="Upgrade", layout="centered")
+
+st.title("💎 Upgrade auf EuroGenius Premium")
 
 st.markdown("""
-### Dein Testzeitraum ist bald vorbei?  
-🔓 Sichere dir jetzt den vollen Zugriff auf alle Funktionen von EuroGenius:
+### Dein kostenloser Test ist abgelaufen.  
+🔓 Sichere dir jetzt den Zugang zu **EuroGenius Premium**:
 
 ---
 
-✅ **Premium-Vorteile:**
+✅ **Vorteile:**
 - Voller Zugriff auf Tippgenerator & Strategien
-- Unbegrenzte Nutzung
-- Offizielle EuroMillions-Auswertungen & Updates
+- Alle Ziehungen & Gewinnklassen
+- Persönliche Trefferstatistik
+
+💸 Nur **5.99 €/Monat**
 
 ---
 
-💸 **Jetzt upgraden für nur 5.99 €/Monat**
+📧 **Zahlung & Support:**
+Sende deine Upgrade-Anfrage an [support@eurogenius.ai](mailto:support@eurogenius.ai)
 
-Zahlung einfach via E-Mail oder Support.  
-📧 Kontakt: [support@eurogenius.ai](mailto:support@eurogenius.ai)
-
+*Stripe-Integration kommt bald.*
 """)
-
-st.info("🔐 Nach dem Upgrade erhältst du sofort Premium-Zugang.")
