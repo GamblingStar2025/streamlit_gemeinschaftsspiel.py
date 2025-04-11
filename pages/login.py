@@ -1,9 +1,9 @@
 
 import streamlit as st
+st.set_page_config(page_title="Login", layout="centered")
 from supabase_connector import add_user, get_user
 from datetime import datetime, timedelta
 
-st.set_page_config(page_title="Login", layout="centered")
 st.title("🔐 Login / Registrierung")
 
 email = st.text_input("📧 E-Mail eingeben")

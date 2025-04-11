@@ -1,8 +1,8 @@
 
 import streamlit as st
+st.set_page_config(page_title="Strategie", layout="centered")
 from supabase_connector import save_tipps
 
-st.set_page_config(page_title="Strategie", layout="centered")
 st.title("🧠 Strategie")
 
 if "email" not in st.session_state:

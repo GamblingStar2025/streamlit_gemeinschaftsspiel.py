@@ -1,8 +1,8 @@
 
 import streamlit as st
+st.set_page_config(page_title="Dashboard", layout="centered")
 from datetime import datetime, timedelta
 
-st.set_page_config(page_title="Dashboard", layout="centered")
 st.title("📊 Dashboard")
 
 if "rolle" in st.session_state:
