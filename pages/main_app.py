@@ -4,6 +4,13 @@ import random
 
 st.title("🎰 Tipp-Generator")
 
+# Region wählen (Standard: EU)
+region = st.selectbox("🌍 Wähle deine Region", ["🇪🇺 Europäische Union", "🇨🇭 Schweiz"])
+st.session_state["region"] = "EU" if region == "🇪🇺 Europäische Union" else "CH"
+
+preis_pro_tipp = 2.50 if st.session_state["region"] == "EU" else 3.50
+waehrung = "€" if st.session_state["region"] == "EU" else "CHF"
+
 modus = st.radio("Wähle Spielmodus", ["Einzelspieler", "Gemeinschaftsspiel"])
 anzahl = st.slider("Anzahl Tipps", 1, 50 if modus == "Einzelspieler" else 500, 5)
 
@@ -23,6 +30,10 @@ for _ in range(anzahl):
 st.subheader("📋 Deine Tipps:")
 for i, (zahlen, sterne) in enumerate(tipps, 1):
     st.markdown(f"**Tipp {i}:** {zahlen} ⭐ {sterne}")
+
+# Preisanzeige
+gesamtpreis = anzahl * preis_pro_tipp
+st.markdown(f"💰 **Gesamtkosten:** {anzahl} Tipps × {waehrung}{preis_pro_tipp:.2f} = **{waehrung}{gesamtpreis:.2f}**")
 
 st.session_state["generierte_tipps"] = tipps
 
