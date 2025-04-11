@@ -2,13 +2,17 @@
 import streamlit as st
 from translations import get_translations
 
-# ✅ set_page_config MUSS zuerst aufgerufen werden
+# ✅ Muss die allererste Streamlit-Funktion sein
 st.set_page_config(page_title="EuroGenius", layout="centered")
 
-# Sprache wählen
+# Sprache auswählen
 lang = st.selectbox("🌐 Sprache / Language", ["de", "fr", "it", "en"], index=0)
-st.session_state["lang"] = lang
-t = get_translations(lang)
+
+# Nur setzen, wenn noch nicht vorhanden oder geändert
+if st.session_state.get("lang") != lang:
+    st.session_state["lang"] = lang
+
+t = get_translations(st.session_state["lang"])
 
 st.title(f"🎯 {t['welcome']}")
 st.button(f"🚀 {t['start']}")
