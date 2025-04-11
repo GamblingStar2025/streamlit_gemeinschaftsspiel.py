@@ -11,3 +11,6 @@ if csv:
     st.session_state["ziehungen"] = df
     st.success("✅ Datei gespeichert für spätere Nutzung.")
     st.dataframe(df)
+
+    if st.button("➡️ Weiter zur Strategie"):
+        st.switch_page("pages/strategie.py")

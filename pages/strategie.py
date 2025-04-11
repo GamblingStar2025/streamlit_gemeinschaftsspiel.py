@@ -13,7 +13,7 @@ if not st.session_state.automatisch:
     mc = st.slider("🎲 Monte-Carlo", 0, 200, 100)
     ki = st.slider("🤖 KI-Einfluss", 0, 200, 100)
 
-    if st.button("💾 Einstellungen speichern"):
+    if st.button("💾 Strategie speichern", use_container_width=True):
         st.session_state["strategie"] = {
             "hot": hot,
             "cluster": cluster,
@@ -21,11 +21,12 @@ if not st.session_state.automatisch:
             "mc": mc,
             "ki": ki
         }
-        st.success("Strategie gespeichert!")
+        st.success("✅ Strategie-Einstellungen gespeichert!")
 
 strategie = st.session_state.get("strategie", None)
 if strategie:
     st.markdown("✅ **Aktive Strategie-Einstellungen:**")
     st.json(strategie)
-else:
-    st.info("Noch keine Strategie gespeichert.")
+
+if st.button("➡️ Weiter zum Tippgenerator"):
+    st.switch_page("pages/main_app.py")
