@@ -1,7 +1,8 @@
 
 import streamlit as st
 st.set_page_config(page_title="Strategie", layout="centered")
-from supabase_connector import save_tipps
+from ..supabase_connector import save_tipps  # wenn es ein Modul im Parent ist
+
 
 st.title("🧠 Strategie")
 
