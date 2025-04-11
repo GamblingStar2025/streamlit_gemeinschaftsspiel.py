@@ -4,6 +4,10 @@ import random
 
 st.title("🎰 Tipp-Generator")
 
+if not st.session_state.get("is_logged_in") or not st.session_state.get("is_premium"):
+    st.warning("🔐 Nur für eingeloggte Premium-Nutzer verfügbar. Bitte zuerst einloggen unter: Login.")
+    st.stop()
+
 # Region wählen (Standard: EU)
 region = st.selectbox("🌍 Wähle deine Region", ["🇪🇺 Europäische Union", "🇨🇭 Schweiz"])
 st.session_state["region"] = "EU" if region == "🇪🇺 Europäische Union" else "CH"

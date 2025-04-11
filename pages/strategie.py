@@ -3,6 +3,10 @@ import streamlit as st
 
 st.title("🎯 Strategie festlegen")
 
+if not st.session_state.get("is_logged_in") or not st.session_state.get("is_premium"):
+    st.warning("🔐 Nur für eingeloggte Premium-Nutzer verfügbar. Bitte zuerst einloggen unter: Login.")
+    st.stop()
+
 st.checkbox("🔁 Automatisch gewichten", value=False, key="automatisch")
 
 if not st.session_state.automatisch:
