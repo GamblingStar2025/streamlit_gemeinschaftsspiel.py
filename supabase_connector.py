@@ -1,32 +1,37 @@
 
 import os
-from supabase import create_client
+import requests
 
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_KEY")
-
-supabase = create_client(url, key)
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+HEADERS = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": f"Bearer {SUPABASE_KEY}",
+    "Content-Type": "application/json"
+}
 
 def add_user(email, rolle="gast", premium=False):
-    from datetime import datetime
-    return supabase.table("users").insert({
+    import datetime
+    payload = {
         "email": email,
         "rolle": rolle,
-        "startdatum": datetime.utcnow().isoformat(),
+        "startdatum": datetime.datetime.utcnow().isoformat(),
         "premium": premium
-    }).execute()
+    }
+    return requests.post(f"{SUPABASE_URL}/rest/v1/users", headers=HEADERS, json=payload)
 
 def get_user(email):
-    return supabase.table("users").select("*").eq("email", email).single().execute()
+    return requests.get(f"{SUPABASE_URL}/rest/v1/users?email=eq.{email}", headers=HEADERS)
 
 def save_tipps(user_email, strategie, zahlen):
-    from datetime import datetime
-    return supabase.table("tipps").insert({
+    import datetime
+    payload = {
         "user_email": user_email,
-        "datum": datetime.utcnow().isoformat(),
+        "datum": datetime.datetime.utcnow().isoformat(),
         "strategie": strategie,
         "zahlen": zahlen
-    }).execute()
+    }
+    return requests.post(f"{SUPABASE_URL}/rest/v1/tipps", headers=HEADERS, json=payload)
 
 def get_user_tipps(user_email):
-    return supabase.table("tipps").select("*").eq("user_email", user_email).order("datum", desc=True).execute()
+    return requests.get(f"{SUPABASE_URL}/rest/v1/tipps?user_email=eq.{user_email}&order=datum.desc", headers=HEADERS)
