@@ -6,15 +6,24 @@ from custom_style import eurogenius_css
 st.set_page_config(page_title="Tippgenerator", layout="centered")
 st.markdown(eurogenius_css(), unsafe_allow_html=True)
 
-if not st.session_state.get("is_logged_in") or st.session_state.get("rolle") != "premium":
-    st.warning("🚫 Zugriff nur für eingeloggte Premium-Nutzer.")
+rolle = st.session_state.get("rolle", "unknown")
+
+if not st.session_state.get("is_logged_in"):
+    st.warning("🚫 Bitte zuerst einloggen.")
+    st.stop()
+
+if rolle == "gast":
+    st.info("🔓 Als Gast erhältst du 3 kostenlose Tipps!")
+    anzahl = 3
+elif rolle == "premium":
+    anzahl = st.slider("Wie viele Tipps?", 1, 10, 3)
+else:
+    st.warning("🚫 Unbekannter Zugriff – bitte neu einloggen.")
     st.stop()
 
 st.title("🎰 EuroGenius Tippgenerator")
 
-anzahl = st.slider("Wie viele Tipps?", 1, 10, 3)
 tipps = []
-
 for _ in range(anzahl):
     zahlen = sorted(random.sample(range(1, 51), 5))
     sterne = sorted(random.sample(range(1, 13), 2))
