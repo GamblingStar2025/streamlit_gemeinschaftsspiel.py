@@ -8,11 +8,17 @@ st.markdown(eurogenius_css(), unsafe_allow_html=True)
 st.title("🔐 Login – EuroGenius")
 
 email = st.text_input("📧 E-Mail")
+
 if st.button("🔓 Login (Demo ohne Passwort)"):
     st.session_state["is_logged_in"] = True
     st.session_state["user_email"] = email
-    st.session_state["rolle"] = "gast"
-    st.success(f"✅ Eingeloggt als {email}")
+
+    if email.strip().lower() == "test@euromillion.ch":
+        st.session_state["rolle"] = "premium"
+    else:
+        st.session_state["rolle"] = "gast"
+
+    st.success(f"✅ Eingeloggt als {email} ({st.session_state['rolle']})")
 
 if st.session_state.get("is_logged_in"):
     st.markdown(f"👤 Rolle: **{st.session_state['rolle']}**")
