@@ -1,23 +1,32 @@
-import streamlit as st
-import requests
 
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_API_KEY = st.secrets["SUPABASE_API_KEY"]
-HEADERS = {
-    "apikey": SUPABASE_API_KEY,
-    "Authorization": f"Bearer {SUPABASE_API_KEY}",
-    "Content-Type": "application/json"
-}
+import os
+from supabase import create_client
 
-def add_user(email):
-    return requests.post(f"{SUPABASE_URL}/rest/v1/users", json={"email": email}, headers=HEADERS)
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_KEY")
+
+supabase = create_client(url, key)
+
+def add_user(email, rolle="gast", premium=False):
+    from datetime import datetime
+    return supabase.table("users").insert({
+        "email": email,
+        "rolle": rolle,
+        "startdatum": datetime.utcnow().isoformat(),
+        "premium": premium
+    }).execute()
 
 def get_user(email):
-    return requests.get(f"{SUPABASE_URL}/rest/v1/users?email=eq.{email}", headers=HEADERS)
+    return supabase.table("users").select("*").eq("email", email).single().execute()
 
 def save_tipps(user_email, strategie, zahlen):
-    return requests.post(f"{SUPABASE_URL}/rest/v1/tipps", json={
-        "email": user_email,
+    from datetime import datetime
+    return supabase.table("tipps").insert({
+        "user_email": user_email,
+        "datum": datetime.utcnow().isoformat(),
         "strategie": strategie,
         "zahlen": zahlen
-    }, headers=HEADERS)
+    }).execute()
+
+def get_user_tipps(user_email):
+    return supabase.table("tipps").select("*").eq("user_email", user_email).order("datum", desc=True).execute()
