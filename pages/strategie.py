@@ -1,45 +1,39 @@
 
 import streamlit as st
 import random
-import matplotlib.pyplot as plt
+from custom_style import eurogenius_css
 
-st.set_page_config(page_title="Strategie", layout="centered")
+st.set_page_config(page_title="Strategie-Setup", layout="centered")
+st.markdown(eurogenius_css(), unsafe_allow_html=True)
+
 st.title("🧠 Strategie-Setup mit Analyse")
 
-strategien = ["Zufall", "Hot/Cold", "Clustering", "Monte Carlo", "KI (bald)"]
-strategie = st.selectbox("Strategie wählen", strategien)
+tabs = st.tabs(["🔥 Heiße Zahlen", "❄️ Kalte Zahlen", "🎲 Zufallsstrategie", "🧪 KI-Strategie"])
+strategie_wahl = {}
 
-ziehungsbereich = st.slider("Ziehungen analysieren (Hot/Cold & Cluster)", 10, 100, 50)
-simulation_runs = st.slider("Monte Carlo Runs", 1000, 10000, 5000)
+with tabs[0]:
+    st.subheader("🔥 Heiße Zahlen")
+    strategie_wahl["heiss"] = st.slider("Anteil heiße Zahlen (%)", 0, 100, 60)
 
-if strategie == "Hot/Cold":
-    st.subheader("Hot/Cold Analyse")
-    hot = random.sample(range(1, 51), 5)
-    cold = random.sample(range(1, 51), 5)
-    st.write("🔥 Hot Numbers:", hot)
-    st.write("❄️ Cold Numbers:", cold)
-    st.bar_chart({"Hot": hot, "Cold": cold})
+with tabs[1]:
+    st.subheader("❄️ Kalte Zahlen")
+    strategie_wahl["kalt"] = st.slider("Anteil kalte Zahlen (%)", 0, 100, 40)
 
-elif strategie == "Clustering":
-    st.subheader("Clustering nach Häufigkeit")
-    cluster_data = {
-        "Häufig": random.sample(range(1, 51), 2),
-        "Mittel": random.sample(range(1, 51), 2),
-        "Selten": random.sample(range(1, 51), 1)
-    }
-    st.write(cluster_data)
+with tabs[2]:
+    st.subheader("🎲 Zufallsstrategie")
+    strategie_wahl["zufall"] = sorted(random.sample(range(1, 51), 5))
+    st.json(strategie_wahl["zufall"])
 
-elif strategie == "Monte Carlo":
-    st.subheader("Monte Carlo Simulation")
-    result = [random.randint(1, 50) for _ in range(simulation_runs)]
-    fig, ax = plt.subplots()
-    ax.hist(result, bins=50, edgecolor='black')
-    st.pyplot(fig)
+with tabs[3]:
+    st.subheader("🧪 KI-Strategie (Mock)")
+    strategie_wahl["ki"] = st.slider("Monte Carlo Simulationen", 1000, 10000, 5000)
 
-elif strategie == "KI (bald)":
-    st.info("KI-Modul in Entwicklung – bald verfügbar!")
+if st.button("💾 Strategie speichern"):
+    st.success("✅ Strategie gespeichert! (Demo)")
 
-else:
-    st.subheader("Zufallsgenerator")
-    zahlen = sorted(random.sample(range(1, 51), 5))
-    st.write("Dein Tipp:", zahlen)
+# Navigation
+col1, col2 = st.columns(2)
+with col1:
+    st.page_link("pages/main_app.py", label="⬅️ Zurück", icon="◀️")
+with col2:
+    st.page_link("pages/dashboard.py", label="➡️ Weiter", icon="▶️")
