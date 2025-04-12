@@ -1,23 +1,16 @@
-
 import streamlit as st
-st.set_page_config(page_title="Login", layout="centered")
 from supabase_connector import add_user, get_user
-from datetime import datetime, timedelta
 
-st.title("🔐 Login / Registrierung")
+st.set_page_config(page_title="Login", layout="centered")
 
-email = st.text_input("📧 E-Mail eingeben")
-if st.button("Als Gast starten"):
-    response = get_user(email)
-    if response.status_code == 200 and response.json():
-        user = response.json()[0]
-        st.session_state["rolle"] = user["rolle"]
+st.title("🔐 Login")
+email = st.text_input("E-Mail")
+if st.button("Einloggen"):
+    user = get_user(email)
+    if user:
         st.session_state["email"] = email
-        st.session_state["startdatum"] = user.get("startdatum")
-        st.success(f"Willkommen zurück, {user['rolle']}!")
+        st.success("Eingeloggt!")
     else:
-        add_user(email=email, rolle="gast", premium=False)
-        st.session_state["rolle"] = "gast"
+        add_user(email)
         st.session_state["email"] = email
-        st.session_state["startdatum"] = datetime.utcnow().isoformat()
-        st.success("Gastzugang erstellt – 7 Tage gültig.")
+        st.success("Neuer Benutzer erstellt und eingeloggt.")
