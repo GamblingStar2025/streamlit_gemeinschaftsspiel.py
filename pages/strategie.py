@@ -31,11 +31,7 @@ with st.expander("🌀 Cluster-Strategie", expanded=False):
         res = save_strategy(email, "Cluster", {"level": cluster_level})
         st.success("✅ Cluster-Strategie gespeichert.")
 
-with st.expander("🎡 Zahlenrad", expanded=False):
-    wheel_size = st.selectbox("Rad-Umfang", [10, 20, 30, 50], key="rad_select")
-    if st.button("💾 Strategie speichern", key="save_rad"):
-        res = save_strategy(email, "Zahlenrad", {"umfang": wheel_size})
-        st.success("✅ Zahlenrad-Strategie gespeichert.")
+
 
 
 with st.expander("🎰 Monaco Casino", expanded=False):
@@ -54,3 +50,11 @@ with st.expander("🎡 Radsystem – Ziehungsanalyse", expanded=False):
     if st.button("💾 Strategie speichern", key="save_radsystem"):
         res = save_strategy(email, "Radsystem", {"analyse_typ": analyse_typ, "anzahl_ziehungen": analyse_tiefe})
         st.success("✅ Radsystem-Strategie gespeichert.")
+
+
+with st.expander("🤖 KI-Strategie", expanded=False):
+    ki_power = st.slider("Anpassungsintensität (%)", 0, 200, 100, key="ki_slider")
+    st.markdown("Die KI-Strategie passt sich basierend auf historischen Trends an.")
+    if st.button("💾 Strategie speichern", key="save_ki"):
+        res = save_strategy(email, "KI-Strategie", {"intensität": ki_power})
+        st.success("✅ KI-Strategie gespeichert.")
