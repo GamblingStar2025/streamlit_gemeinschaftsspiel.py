@@ -1,33 +1,42 @@
 
 def eurogenius_css():
     return """
-    <style>
-    .main {
-        background: linear-gradient(180deg, #0072ff 0%, #00c6ff 100%);
-        color: white;
+<style>
+    html, body, .main {
+        background-color: #f4f9ff;
         font-family: 'Segoe UI', sans-serif;
     }
     h1, h2, h3 {
-        color: gold;
+        color: #003366;
+    }
+    .stButton > button {
+        background-color: #0057b8;
+        color: white;
         font-weight: bold;
+        border-radius: 12px;
+        padding: 0.6em 1.2em;
+        margin: 0.5em 0;
+        transition: all 0.2s ease-in-out;
     }
-    .stButton>button {
-        background-color: gold;
-        color: black;
-        border-radius: 2em;
-        font-size: 1.1em;
+    .stButton > button:hover {
+        background-color: #003f8c;
+        transform: scale(1.02);
+    }
+    .stTextInput > div > input {
+        border-radius: 8px;
+        border: 1px solid #aad4ff;
+        padding: 0.5em;
+        background-color: #ffffff;
+    }
+    .stSlider > div[data-testid="stSlider"] > div {
+        background-color: #0057b8;
+    }
+    .stSelectbox > div {
+        border-radius: 8px;
+    }
+    .stExpanderHeader {
         font-weight: bold;
-        padding: 0.75em 2em;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        color: #003366;
     }
-    .stTextInput>div>input {
-        border-radius: 1em;
-        padding: 0.6em;
-        border: 1px solid #cccccc;
-    }
-    .stSelectbox>div>div {
-        border-radius: 1em;
-        padding: 0.4em;
-    }
-    </style>
+</style>
     """
