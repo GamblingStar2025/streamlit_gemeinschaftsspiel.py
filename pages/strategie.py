@@ -3,30 +3,62 @@ import streamlit as st
 import random
 from custom_style import eurogenius_css
 
-st.set_page_config(page_title="Strategie-Setup", layout="centered")
+st.set_page_config(page_title="Strategie-Zentrale", layout="centered")
 st.markdown(eurogenius_css(), unsafe_allow_html=True)
 
-st.title("🧠 Strategie-Setup mit Analyse")
+st.title("🧠 Strategie-Zentrale")
 
-tabs = st.tabs(["🔥 Heiße Zahlen", "❄️ Kalte Zahlen", "🎲 Zufallsstrategie", "🧪 KI-Strategie"])
-strategie_wahl = {}
+tabs = st.tabs([
+    "🔥 Heiße Zahlen", 
+    "❄️ Kalte Zahlen", 
+    "🎲 Zufall", 
+    "🧪 KI-basiert",
+    "🧮 Zahlendichte",
+    "📉 Anti-Hot",
+    "🔁 Zyklen",
+    "⚙️ Benutzerdefiniert",
+    "📅 Wochentagsstrategie"
+])
+
+strategien = {}
 
 with tabs[0]:
     st.subheader("🔥 Heiße Zahlen")
-    strategie_wahl["heiss"] = st.slider("Anteil heiße Zahlen (%)", 0, 100, 60)
+    strategien["heiss"] = st.slider("Anteil heiße Zahlen (%)", 0, 100, 60)
 
 with tabs[1]:
     st.subheader("❄️ Kalte Zahlen")
-    strategie_wahl["kalt"] = st.slider("Anteil kalte Zahlen (%)", 0, 100, 40)
+    strategien["kalt"] = st.slider("Anteil kalte Zahlen (%)", 0, 100, 40)
 
 with tabs[2]:
     st.subheader("🎲 Zufallsstrategie")
-    strategie_wahl["zufall"] = sorted(random.sample(range(1, 51), 5))
-    st.json(strategie_wahl["zufall"])
+    strategien["zufall"] = sorted(random.sample(range(1, 51), 5))
+    st.json(strategien["zufall"])
 
 with tabs[3]:
     st.subheader("🧪 KI-Strategie (Mock)")
-    strategie_wahl["ki"] = st.slider("Monte Carlo Simulationen", 1000, 10000, 5000)
+    strategien["ki"] = st.slider("Monte Carlo Simulationen", 1000, 10000, 5000)
+
+with tabs[4]:
+    st.subheader("🧮 Zahlendichte-Strategie")
+    strategien["dichte"] = st.slider("Häufigkeitsgewichtung (%)", 0, 100, 70)
+
+with tabs[5]:
+    st.subheader("📉 Anti-Hot-Strategie")
+    strategien["anti_hot"] = st.slider("Meide heiße Zahlen zu (%)", 0, 100, 50)
+
+with tabs[6]:
+    st.subheader("🔁 Zyklen-Strategie")
+    strategien["zyklen"] = st.slider("Zyklenwechsel nach Ziehungen", 1, 20, 5)
+
+with tabs[7]:
+    st.subheader("⚙️ Benutzerdefinierte Strategie")
+    strategien["custom_hot"] = st.slider("Hot-Anteil", 0, 100, 50)
+    strategien["custom_cold"] = st.slider("Cold-Anteil", 0, 100, 50)
+
+with tabs[8]:
+    st.subheader("📅 Wochentag-Strategie")
+    strategien["wochentag"] = st.selectbox("Ziehungstag", ["Dienstag", "Freitag"])
 
 if st.button("💾 Strategie speichern"):
     st.success("✅ Strategie gespeichert! (Demo)")
