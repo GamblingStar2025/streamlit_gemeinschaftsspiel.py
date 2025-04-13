@@ -24,7 +24,7 @@ if mode == "🔓 Login":
                 st.success(f"✅ Eingeloggt als {user.email}")
                 st.session_state["is_logged_in"] = True
                 st.session_state["user_email"] = user.email
-                st.experimental_rerun()
+                st.rerun()
         except Exception as e:
             st.error("❌ Login fehlgeschlagen: " + str(e))
 
@@ -43,4 +43,4 @@ if st.session_state.get("is_logged_in"):
     st.markdown(f"👤 Eingeloggt als: `{st.session_state['user_email']}`")
     if st.button("🚪 Logout"):
         st.session_state.clear()
-        st.experimental_rerun()
+        st.rerun()
