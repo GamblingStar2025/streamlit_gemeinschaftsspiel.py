@@ -22,3 +22,17 @@ with st.expander("❄️ Kalte Zahlen", expanded=False):
         st.success("✅ Strategie gespeichert.")
 
 # andere Tabs wie vorher
+
+
+
+with st.expander("🌀 Cluster-Strategie", expanded=False):
+    cluster_level = st.slider("Cluster-Größe", 1, 5, 3, key="cluster_slider")
+    if st.button("💾 Strategie speichern", key="save_cluster"):
+        res = save_strategy(email, "Cluster", {"level": cluster_level})
+        st.success("✅ Cluster-Strategie gespeichert.")
+
+with st.expander("🎡 Zahlenrad", expanded=False):
+    wheel_size = st.selectbox("Rad-Umfang", [10, 20, 30, 50], key="rad_select")
+    if st.button("💾 Strategie speichern", key="save_rad"):
+        res = save_strategy(email, "Zahlenrad", {"umfang": wheel_size})
+        st.success("✅ Zahlenrad-Strategie gespeichert.")
