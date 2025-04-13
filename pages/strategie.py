@@ -36,3 +36,21 @@ with st.expander("🎡 Zahlenrad", expanded=False):
     if st.button("💾 Strategie speichern", key="save_rad"):
         res = save_strategy(email, "Zahlenrad", {"umfang": wheel_size})
         st.success("✅ Zahlenrad-Strategie gespeichert.")
+
+
+with st.expander("🎰 Monaco Casino", expanded=False):
+    mischg = st.slider("🔀 Durchmischung", 1000, 1_000_000, 50000, key="monaco_mix")
+    st.markdown("Diese Strategie simuliert Extremszenarien wie im Casino.")
+    if st.button("💾 Strategie speichern", key="save_monaco"):
+        res = save_strategy(email, "Monaco Casino", {"durchmischung": mischg})
+        st.success("✅ Monaco Casino-Strategie gespeichert.")
+
+
+with st.expander("🎡 Radsystem – Ziehungsanalyse", expanded=False):
+    st.markdown("Analysiere wie oft Zahlen, Paare oder Kombinationen gezogen wurden.")
+    analyse_typ = st.selectbox("Was soll analysiert werden?", ["Einzelzahlen", "Paare", "3er-Kombinationen", "5er-Kombinationen"], key="radsystem_typ")
+    analyse_tiefe = st.slider("Anzahl Ziehungen", 10, 1000, 100, key="radsystem_anzahl")
+
+    if st.button("💾 Strategie speichern", key="save_radsystem"):
+        res = save_strategy(email, "Radsystem", {"analyse_typ": analyse_typ, "anzahl_ziehungen": analyse_tiefe})
+        st.success("✅ Radsystem-Strategie gespeichert.")
