@@ -16,7 +16,7 @@ email = st.session_state.get("user_email", None)
 if not email:
     st.warning("Bitte zuerst einloggen.")
 else:
-    try:\n    res = supabase.table("Strategien").select("*").eq("email", email).execute()\nexcept Exception as e:\n    st.error(f"❌ Supabase-Fehler: {e}")\n    res = None
+    res = supabase.table("strategien").select("*").eq("email", email).execute()
     if res.data:
         df = pd.DataFrame(res.data)
         df["parameters"] = df["parameters"].apply(lambda x: str(x))

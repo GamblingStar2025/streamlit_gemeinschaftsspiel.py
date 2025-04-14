@@ -1,5 +1,13 @@
 
 import streamlit as st
+
+# 🔐 Temporärer Login-Bypass für Testzwecke
+if "rolle" not in st.session_state:
+    st.session_state["rolle"] = "premium"
+    st.session_state["is_logged_in"] = True
+
+
+import streamlit as st
 import random
 from custom_style import eurogenius_css
 
