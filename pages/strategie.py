@@ -58,8 +58,3 @@ with st.expander("🤖 KI-Strategie", expanded=False):
     if st.button("💾 Strategie speichern", key="save_ki"):
         res = save_strategy(email, "KI-Strategie", {"intensität": ki_power})
         st.success("✅ KI-Strategie gespeichert.")
-
-
-st.markdown("---")
-if st.button("➡️ Weiter zur Auswertung"):
-    st.switch_page("pages/tipp_generator.py")
