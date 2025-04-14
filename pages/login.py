@@ -1,6 +1,11 @@
 
 import streamlit as st
-from supabase import create_client\n\nurl = st.secrets['SUPABASE_URL']\nkey = st.secrets['SUPABASE_KEY']\nsupabase = create_client(url, key)
+from supabase import create_client
+
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+supabase = create_client(url, key)
+
 
 st.set_page_config(page_title="Login", layout="centered")
 st.title("🔐 Login")
