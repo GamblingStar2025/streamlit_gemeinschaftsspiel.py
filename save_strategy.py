@@ -14,5 +14,5 @@ def save_strategy(user_email, strategy_name, parameters):
         "strategy_name": strategy_name,
         "parameters": parameters
     }
-    response = supabase.table("strategien").insert(data).execute()
+    response = supabase.table("Strategien").insert(data).execute()
     return response
