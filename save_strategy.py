@@ -1,28 +1,17 @@
-
-import json
+import streamlit as st
 from supabase import create_client, Client
 
-# Supabase-Verbindung (ersetzen durch deine Werte)
-SUPABASE_URL = "https://your-project.supabase.co"
-SUPABASE_KEY = "your-supabase-key"
+# Hole die Secrets
+SUPABASE_URL = st.secrets["SUPABASE_URL"]
+SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-def save_strategy(email, strategy_name, parameters):
-    try:
-        data = {
-            "email": email,
-            "strategy_name": strategy_name,
-            "parameters": json.dumps(parameters)  # wichtig: als JSON-String speichern
-        }
-
-        response = supabase.table("Strategien").insert(data).execute()
-
-        if response.status_code >= 400:
-            raise Exception(f"Fehler bei Supabase: {response.json()}")
-
-        return response
-
-    except Exception as e:
-        print("❌ Fehler beim Speichern der Strategie:", e)
-        raise e
+def save_strategy(email: str, strategy_name: str, parameters: dict):
+    data = {
+        "email": email,
+        "strategy_name": strategy_name,
+        "parameters": parameters
+    }
+    response = supabase.table("Strategien").insert(data).execute()
+    return response
