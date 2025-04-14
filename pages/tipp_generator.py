@@ -15,7 +15,6 @@ einsatz_pro_tipp = st.number_input("Einsatz pro Tipp (CHF)", min_value=0.5, max_
 
 email = st.session_state.get("user_email", "gast@demo.com")
 
-# Ziehungsdaten laden
 @st.cache_data
 def lade_haeufigkeit():
     df = pd.read_csv("EuroMillion_Ziehungen.csv")
@@ -25,28 +24,26 @@ def lade_haeufigkeit():
         haupt_counter.update(df[col].dropna().astype(int).tolist())
     return dict(haupt_counter)
 
-# Strategien laden
 def lade_strategien(email):
     client = get_client()
-    result = client.table("strategien").select("*").eq("email", email).execute()
-    return result.data if result.data else []
+    try:
+        result = client.table("Strategien").select("*").eq("email", email).execute()
+        return result.data if result.data else []
+    except Exception as e:
+        st.error(f"❌ Fehler beim Laden der Strategien: {e}")
+        return []
 
-# Gewichtete Tippgenerierung
 def generiere_gewichteten_tipp(strategien, gewichtung):
     zahlen_pool = list(range(1, 51))
     stern_pool = list(range(1, 13))
-    
-    # Gewichtsliste basierend auf Ziehungen
     gewichte = [gewichtung.get(z, 1) for z in zahlen_pool]
 
-    # Strategieanpassung: heiße Zahlen verstärken
     for strat in strategien:
         if strat["strategy_name"] == "Heiße Zahlen":
             anteil = strat["parameters"].get("anteil", 50)
             for i, z in enumerate(zahlen_pool):
                 gewichte[i] *= (1 + anteil / 100)
 
-    # Normierung und Auswahl
     hauptzahlen = sorted(random.choices(zahlen_pool, weights=gewichte, k=10))
     hauptzahlen = sorted(list(set(hauptzahlen)))[:5]
     sternzahlen = sorted(random.sample(stern_pool, 2))

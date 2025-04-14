@@ -4,17 +4,34 @@ import streamlit as st
 st.set_page_config(page_title="Login", layout="centered")
 st.title("🔐 Login")
 
-email = st.text_input("E-Mail")
-rolle = st.radio("Rolle wählen", ["gast", "premium"], horizontal=True)
+rolle = st.radio("Login als:", ["gast", "premium"], horizontal=True)
 
-if st.button("✅ Einloggen"):
-    if email:
-        st.session_state["is_logged_in"] = True
-        st.session_state["user_email"] = email
-        st.session_state["rolle"] = rolle
-        st.success(f"Erfolgreich eingeloggt als {rolle}!")
+if rolle == "gast":
+    st.subheader("🔓 Gastzugang")
+    email = st.text_input("E-Mail (ohne Passwort)")
+    if st.button("✅ Gast-Login"):
+        if "@" in email and "." in email:
+            st.session_state["is_logged_in"] = True
+            st.session_state["user_email"] = email
+            st.session_state["rolle"] = "gast"
+            st.success("🎉 Eingeloggt als **Gast**.")
+            if st.button("➡️ Weiter zur App"):
+                st.switch_page("pages/main_app.py")
+        else:
+            st.error("❌ Bitte eine gültige E-Mail-Adresse eingeben.")
 
-        if st.button("➡️ Weiter zur Hauptseite"):
-            st.switch_page("pages/main_app.py")
-    else:
-        st.error("Bitte E-Mail eingeben.")
+elif rolle == "premium":
+    st.subheader("💎 Premiumzugang")
+    email = st.text_input("E-Mail")
+    password = st.text_input("Passwort", type="password")
+    if st.button("🔐 Premium-Login"):
+        if "@" in email and "." in email and len(password) >= 4:
+            # Hier könnte Supabase Auth oder eine echte Nutzerprüfung folgen
+            st.session_state["is_logged_in"] = True
+            st.session_state["user_email"] = email
+            st.session_state["rolle"] = "premium"
+            st.success("💎 Eingeloggt als **Premium**.")
+            if st.button("➡️ Weiter zur App"):
+                st.switch_page("pages/main_app.py")
+        else:
+            st.error("❌ Ungültige E-Mail oder Passwort.")
