@@ -16,6 +16,8 @@ email = st.session_state.get("user_email", None)
 if not email:
     st.warning("Bitte zuerst einloggen.")
 else:
+    st.write("Aktueller Benutzer:", email)
+
     res = supabase.table("strategien").select("*").eq("email", email).execute()
     if res.data:
         df = pd.DataFrame(res.data)
