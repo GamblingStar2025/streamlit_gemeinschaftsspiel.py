@@ -1,4 +1,7 @@
-def save_strategy(supabase, email, strategy_name, parameters):
+from supabase_connector import get_client
+
+def save_strategy(email, strategy_name, parameters):
+    supabase = get_client()
     data = {
         "email": email,
         "strategy_name": strategy_name,
