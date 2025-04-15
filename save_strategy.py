@@ -1,16 +1,6 @@
-
-import streamlit as st
-from st_supabase_connection import SupabaseConnection
-
-@st.cache_resource
-def get_client():
-    conn = st.connection("supabase", type=SupabaseConnection)
-    return conn.client
-
-def save_strategy(user_email, strategy_name, parameters):
-    supabase = get_client()
+def save_strategy(supabase, email, strategy_name, parameters):
     data = {
-        "email": user_email,
+        "email": email,
         "strategy_name": strategy_name,
         "parameters": parameters
     }
