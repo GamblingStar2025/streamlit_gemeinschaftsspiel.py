@@ -1,6 +1,6 @@
 
 import streamlit as st
-from supabase_connector import get_client
+from supabase_client import get_authenticated_client as get_client
 
 st.set_page_config(page_title="Login", layout="centered")
 st.title("🔐 Login")
