@@ -1,18 +1,21 @@
-
 import streamlit as st
-from st_supabase_connection import SupabaseConnection
+from supabase_client import get_authenticated_client
 
-@st.cache_resource
-def get_client():
-    conn = st.connection("supabase", type=SupabaseConnection)
-    return conn.client
 
-def save_strategy(user_email, strategy_name, parameters):
-    supabase = get_client()
+def save_strategy(client, email: str, strategy_name: str, parameters: dict):
     data = {
-        "email": user_email,
+        "email": email,
         "strategy_name": strategy_name,
         "parameters": parameters
     }
-    response = supabase.table("strategien").insert(data).execute()
+
+    # Debug-Ausgabe zur Fehleranalyse
+    print("Daten zum Insert:", data)
+
+    # Verwende den korrekten Tabellennamen (Case-sensitive!)
+    response = client.table("Strategien").insert(data).execute()
     return response
+
+
+# Hole den authentifizierten Supabase-Client
+supabase = get_authenticated_client()
